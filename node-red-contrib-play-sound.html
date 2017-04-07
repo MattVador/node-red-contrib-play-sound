@@ -1,0 +1,73 @@
+<script type="text/javascript">
+	RED.nodes.registerType('PlaySound',{
+		category: 'output',
+		color: '#daaff7',
+		icon: "unmute.png",
+		label: function() {
+			return this.name || "PlaySound";
+		},
+		defaults: {
+			name: {value:""},
+			audioURI: {value:""},
+			options: {value:""}
+		},
+		inputs:1,
+		outputs:1,
+		button: {
+			onclick: function() {
+				var label = this.name||"PlaySound";
+				var node = this;
+				$.ajax({
+					url: "PlaySound/"+this.id,
+					type: "POST",
+					success: function(resp, textStatus, xhr) {
+						RED.notify(node._("inject.success",{label:label}),"success");
+					},
+					error: function(jqXHR,textStatus,errorThrown) {
+						if (jqXHR.status == 404) {
+							RED.notify(node._("common.notification.error",{message:node._("common.notification.errors.not-deployed")}),"error");
+						} else if (jqXHR.status == 500) {
+							RED.notify(node._("common.notification.error",{message:node._("inject.errors.failed")}),"error");
+						} else if (jqXHR.status == 0) {
+							RED.notify(node._("common.notification.error",{message:node._("common.notification.errors.no-response")}),"error");
+						} else {
+							RED.notify(node._("common.notification.error",{message:node._("common.notification.errors.unexpected",{status:jqXHR.status,message:textStatus})}),"error");
+						}
+					}
+				});
+			}
+		}
+	});
+</script>
+
+<script type="text/x-red" data-template-name="PlaySound">
+	<div class="form-row">
+		<label for="node-input-name"><i class="icon-tag"></i> name</label>
+		<input type="text" id="node-input-name" placeholder="name">
+	</div>
+	<div class="form-row">
+		<label for="node-input-audioURI"><i class="icon-tag"></i> Audio URI</label>
+		<input type="text" id="node-input-audioURI" placeholder="File name or url">
+	</div>
+	<div class="form-row">
+		<label for="node-input-options"><i class="icon-tag"></i> Options</label>
+		<input type="text" id="node-input-options" placeholder="{}">
+	</div>
+</script>
+
+<script type="text/x-red" data-help-name="PlaySound">
+	<p><h2>PlaySound</h2></p>
+	<p>This node play an audio file or url. Could play many sound in the same time.</p>
+	<p><u>Input</u></p>
+	<ul>
+		<li><code>msg.payload</code>: start (or empty) - Start playing</li>
+		<li><code>msg.payload</code>: stop - Stop all sound playing</li>
+		<li><code>msg.audioURI</code>: File name or url to play - If empty, then the one in dialog is used</li>
+		<li><code>msg.options</code>: Options - If empty, then the one in dialog is used</li>
+	</ul>
+	<p><u>Output</u></p>
+	<ul>
+		<li><code>msg.payload</code>: end - Emit at the end of playing sound</li>
+		<li><code>msg.payload</code>: stop - Emit while playing and a `stop` input is received</li>
+	</ul>
+</script>
