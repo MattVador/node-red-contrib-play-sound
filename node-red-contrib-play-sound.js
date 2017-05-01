@@ -21,6 +21,12 @@ module.exports = function(RED) {
 			node.log("Event input: " + msg.payload);
 
 			switch (msg.payload) {
+			case "resume":
+				node.resume();
+				break;
+			case "pause":
+				node.pause();
+				break;
 			case "stop":
 				node.stop();
 				break;
@@ -69,7 +75,19 @@ module.exports = function(RED) {
 
 		node.stop = function(audioURI, msg) {
 			for( var p in node.playings) {
-				node.playings[p].kill();
+				node.playings[p].kill('SIGKILL');
+			};
+		}
+
+		node.pause = function(audioURI, msg) {
+			for( var p in node.playings) {
+				node.playings[p].kill('SIGSTOP');
+			};
+		}
+
+		node.resume = function(audioURI, msg) {
+			for( var p in node.playings) {
+				node.playings[p].kill('SIGCONT');
 			};
 		}
 	}
