@@ -14,6 +14,8 @@ This package add 1 output node (PlaySound) to Node-RED.
 The PlaySound node expect the following payload :
 * `start` (or empty): Start playing
 * `stop`: Stop all sound playing
+* `pause`: Pause all sound playing
+* `resume`: Resume all sound playing
 
 
 The PlaySound node comprises the following options:
