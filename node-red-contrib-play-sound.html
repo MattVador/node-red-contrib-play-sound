@@ -9,7 +9,8 @@
 		defaults: {
 			name: {value:""},
 			audioURI: {value:""},
-			options: {value:""}
+			options: {value:""},
+			opts: {value:""}
 		},
 		inputs:1,
 		outputs:1,
@@ -53,6 +54,10 @@
 		<label for="node-input-options"><i class="icon-tag"></i> Options</label>
 		<input type="text" id="node-input-options" placeholder="{}">
 	</div>
+	<div class="form-row">
+		<label for="node-input-opts"><i class="icon-tag"></i> Opts</label>
+		<input type="text" id="node-input-opts" placeholder="{}">
+	</div>
 </script>
 
 <script type="text/x-red" data-help-name="PlaySound">
@@ -66,6 +71,7 @@
 		<li><code>msg.payload</code>: resume - Resume all sound playing</li>
 		<li><code>msg.audioURI</code>: File name or url to play - If empty, then the one in dialog is used</li>
 		<li><code>msg.options</code>: Options - If empty, then the one in dialog is used</li>
+		<li><code>msg.opts</code>: Opts for creating player instance - If empty, then the one in dialog is used</li>
 	</ul>
 	<p><u>Output</u></p>
 	<ul>

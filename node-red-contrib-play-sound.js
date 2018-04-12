@@ -14,7 +14,11 @@ module.exports = function(RED) {
 		var node = this;
 
 		node.config = config;
-		node.player = require('play-sound')();
+		var init_opts = config.opts || {};
+			try {
+				init_opts = JSON.parse(init_opts);
+			} catch(e) {}
+		node.player = require('play-sound')(init_opts);
 		node.playings = {};
 		
 		node.on('input', function(msg) {
