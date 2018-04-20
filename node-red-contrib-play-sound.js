@@ -14,11 +14,13 @@ module.exports = function(RED) {
 		var node = this;
 
 		node.config = config;
-		var init_opts = config.opts || {};
-			try {
-				init_opts = JSON.parse(init_opts);
-			} catch(e) {}
-		node.player = require('play-sound')(init_opts);
+		var playerOptions = {};
+		try {
+			playerOptions = JSON.parse(config.playerOptions || {});
+		} catch(e) {
+			node.warn("Invalid playerOptions");
+		}
+		node.player = require('play-sound')(playerOptions);
 		node.playings = {};
 		
 		node.on('input', function(msg) {
@@ -46,7 +48,9 @@ module.exports = function(RED) {
 			var opts = (msg && msg.options) || node.config.options || {};
 			try {
 				opts = JSON.parse(opts);
-			} catch(e) {}
+			} catch(e) {
+				node.warn("Invalid options");
+			}
 			
 			if( audioURI != null ) {
 				node.log("Play: " + audioURI);
