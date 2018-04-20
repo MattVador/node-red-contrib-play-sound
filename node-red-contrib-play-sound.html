@@ -8,9 +8,23 @@
 		},
 		defaults: {
 			name: {value:""},
+			playerOptions: {value:"", validate: function(v) {
+				try {
+					JSON.parse(v);
+					return true;
+				} catch(err) {
+					return false;
+				}
+			}},
 			audioURI: {value:""},
-			options: {value:""},
-			opts: {value:""}
+			options: {value:"", validate: function(v) {
+				try {
+					JSON.parse(v);
+					return true;
+				} catch(err) {
+					return false;
+				}
+			}},
 		},
 		inputs:1,
 		outputs:1,
@@ -47,16 +61,16 @@
 		<input type="text" id="node-input-name" placeholder="name">
 	</div>
 	<div class="form-row">
+		<label for="node-input-playerOptions"><i class="icon-tag"></i> Player options</label>
+		<input type="text" id="node-input-playerOptions" placeholder="{} or {player:&quot;--see play-sound npm package--&quot;}">
+	</div>
+	<div class="form-row">
 		<label for="node-input-audioURI"><i class="icon-tag"></i> Audio URI</label>
 		<input type="text" id="node-input-audioURI" placeholder="File name or url">
 	</div>
 	<div class="form-row">
-		<label for="node-input-options"><i class="icon-tag"></i> Options</label>
-		<input type="text" id="node-input-options" placeholder="{}">
-	</div>
-	<div class="form-row">
-		<label for="node-input-opts"><i class="icon-tag"></i> Opts</label>
-		<input type="text" id="node-input-opts" placeholder="{}">
+		<label for="node-input-options"><i class="icon-tag"></i> Audio Options</label>
+		<input type="text" id="node-input-options" placeholder="{} or {--see play-sound npm package--}">
 	</div>
 </script>
 
@@ -70,8 +84,7 @@
 		<li><code>msg.payload</code>: pause - Pause all sound playing</li>
 		<li><code>msg.payload</code>: resume - Resume all sound playing</li>
 		<li><code>msg.audioURI</code>: File name or url to play - If empty, then the one in dialog is used</li>
-		<li><code>msg.options</code>: Options - If empty, then the one in dialog is used</li>
-		<li><code>msg.opts</code>: Opts for creating player instance - If empty, then the one in dialog is used</li>
+		<li><code>msg.options</code>: Audio options - If empty, then the one in dialog is used</li>
 	</ul>
 	<p><u>Output</u></p>
 	<ul>
