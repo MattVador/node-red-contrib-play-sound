@@ -22,7 +22,6 @@ The PlaySound node comprises the following options:
 
 * **audioURI**: File name or url to play - If empty, then the one in dialog is used
 * **options**: Options - If empty, then the one in dialog is used
-* **opts**: Initialization options - You can for example specify player here.
 
 
 ## License
