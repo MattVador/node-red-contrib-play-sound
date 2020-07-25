@@ -20,7 +20,7 @@ The PlaySound node expect the following payload :
 
 The PlaySound node comprises the following options:
 
-* **audioURI**: File name or url to play - If empty, then the one in dialog is used
+* **audioURI**: File name or url to play - the one in the dialog will be ignored if this is passed in
 * **options**: Options - If empty, then the one in dialog is used
 
 
